@@ -70,6 +70,14 @@ Panes are assumed to be methods accessible in the context of your
 ApplicationHelper.  Alternatively, you can specify a partial as a pane using
 the format "partial path/to/your/partial"
 
+=== Environment-specific configuration
+
+If you want to specify a different config for any environments, barkeep will look for 
+a file named config/barkeep/#{environment}.json defining environment-specific options. 
+
+If found, this file is merged into the global config/barkeep.json settings, so
+any environment that uses only the global config settings will need its own config file.
+
 == Custom Styling
 
 Barkeep comes with some basic styling that has worked well for us.  You are
