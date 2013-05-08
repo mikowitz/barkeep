@@ -76,7 +76,7 @@ If you want to specify a different config for any environments, barkeep will loo
 a file named config/barkeep/#{environment}.json defining environment-specific options. 
 
 If found, this file is merged into the global config/barkeep.json settings, so
-any environment that uses only the global config settings will need its own config file.
+any environment that uses only the global config settings will not need its own config file.
 
 == Custom Styling
 
