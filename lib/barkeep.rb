@@ -42,8 +42,20 @@ class Barkeeper
     %(<style>#{File.read(File.expand_path(File.dirname(__FILE__) + "/default.css"))}</style>).html_safe
   end
 
+  def git_panes
+    %w{ branch_info commit_sha_info commit_author_info commit_date_info }
+  end
+
+  def shows_git_info?
+    (config['panes'] & git_panes).any?
+  end
+
+  def has_repo_if_needed?
+    shows_git_info? ? grit_info.repository? : true
+  end
+
   def render_toolbar
-    return unless load? && grit_info.repository?
+    return unless load? && has_repo_if_needed?
 
     %(
       <dl id="barkeep">
