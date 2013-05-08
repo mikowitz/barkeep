@@ -12,16 +12,29 @@ end
 class Barkeeper
 
   def config
-    @config ||= JSON.parse(File.read("config/barkeep.json"))
+    @config ||= load_config
+  end
+
+  def load_config
+    config = JSON.parse(File.read("config/barkeep.json"))
+    environment_config_path = "config/barkeep/#{environment}.json"
+    if File.exist?(environment_config_path)
+      environment_config = JSON.parse(File.read(environment_config_path))
+      config.merge!(environment_config)
+    end
+    config
+  end
+
+  def environment
+    if defined?(Rails)
+      Rails.env
+    elsif defined?(Sinatra)
+      Sinatra::Application.settings.environment
+    end
   end
 
   def load?
-    if defined?(Rails)
-      this_env = Rails.env
-    elsif defined?(Sinatra)
-      this_env = Sinatra::Application.settings.environment
-    end
-    config['environments'].include?(this_env.to_s)
+    config['environments'].include?(environment.to_s)
   end
 
   def styles
